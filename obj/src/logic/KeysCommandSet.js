@@ -47,7 +47,7 @@ class KeysCommandSet extends pip_services3_commons_node_1.CommandSet {
             .withRequiredProperty('key', pip_services3_commons_node_6.TypeCode.String)
             .withOptionalProperty('number', pip_services3_commons_node_6.TypeCode.Integer), (correlationId, args, callback) => {
             let key = args.getAsString('key');
-            let number = args.getAsInteger('number');
+            let number = args.getAsIntegerWithDefault('number', 5);
             this._controller.getKeysRangeByKey(correlationId, key, number, callback);
         });
     }

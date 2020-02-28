@@ -184,6 +184,20 @@ export class KeysClientV1Fixture {
                     }
                 )
             },
+            (callback) => {
+                this._client.getKeysRangeByKey(
+                    null, 'key1', null,
+                    (err, range) => {
+                        assert.isNull(err);
+
+                        assert.isArray(range);
+                        assert.lengthOf(range, 5);
+                        assert.deepEqual(range, [12, 13, 14, 15, 16]);
+
+                        callback();
+                    }
+                )
+            },
         ], done);
     }
 }

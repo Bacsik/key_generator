@@ -74,7 +74,7 @@ export class KeysCommandSet extends CommandSet {
                 .withOptionalProperty('number', TypeCode.Integer),
             (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
                 let key = args.getAsString('key');
-                let number = args.getAsInteger('number');
+                let number = args.getAsIntegerWithDefault('number',5);
                 this._controller.getKeysRangeByKey(correlationId, key, number, callback);
             }
         );
