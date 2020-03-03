@@ -22,14 +22,11 @@ export class KeysMemoryPersistence
         private composeFilter(filter: FilterParams): any {
             filter = filter || new FilterParams();
     
-            let id = filter.getAsNullableString('id');
             let key = filter.getAsNullableString('key');
             let last_value = filter.getAsNullableInteger('last_value');
     
             return (item) => {
-                if (id != null && item.id != id)
-                    return false;
-                if (key != null && item.key != key)
+                if (key != null && item.id != key)
                     return false;
                 if (last_value != null && item.last_value != last_value)
                     return false;
@@ -37,29 +34,37 @@ export class KeysMemoryPersistence
             };
         }
     
+        public createKey(correlationId: string,  key: string,
+            
+            callback: (err: any, item: KeyV1) => void): void {
+                let key_model = new KeyV1;
+                key_model.id = key;
+                key_model.last_value = 0;
+                super.create(null,key_model,
+                    (err, item) => {
+                        if (item != null) this._logger.trace(correlationId, "Create key by %s", key);
+                        else this._logger.trace(correlationId, "Cannot create key by %s", key);
+                        callback(err, item);
+                    });
+        }
+        
         public getPageByFilter(correlationId: string, filter: FilterParams, paging: PagingParams,
             callback: (err: any, page: DataPage<KeyV1>) => void): void {
             super.getPageByFilter(correlationId, this.composeFilter(filter), paging, null, null, callback);
         }
         
 
-        public getOneById(correlationId: string, id: string,
+        public getOneById(correlationId: string, key: string,
             callback: (err: any, item: KeyV1) => void): void {
-            let item = _.find(this._items, (item) => item.id == id);
-            if (item != null) this._logger.trace(correlationId, "Found key by %s", id);
-            else this._logger.trace(correlationId, "Cannot find key by %s", id);
-            callback(null, item);
-        }
-        public getOneByKey(correlationId: string, key: string,
-            callback: (err: any, item: KeyV1) => void): void {
-            let item = _.find(this._items, (item) => item.key == key);
+            let item = _.find(this._items, (item) => item.id == key);
             if (item != null) this._logger.trace(correlationId, "Found key by %s", key);
             else this._logger.trace(correlationId, "Cannot find key by %s", key);
             callback(null, item);
         }
-        public getRangeByKey(correlationId: string, key: string, number: number,
-            callback: (err, key: KeyV1) => void): void {
-                let item = _.find(this._items, (item) => item.key == key);
+
+        public nextKey(correlationId: string, key: string, number: number,
+            callback: (err, key_model: KeyV1) => void): void {
+                let item = _.find(this._items, (item) => item.id == key);
                 if (item != null) {
                     this._logger.trace(correlationId, "Found key by %s", key);
                     if (number < 0) number = 5;
@@ -68,5 +73,16 @@ export class KeysMemoryPersistence
                 else this._logger.trace(correlationId, "Cannot find key by %s", key);
                 callback(null, item);
                 item.last_value = item.last_value + number;
+        }
+        public resetKey(correlationId: string, key: string, 
+            callback: (err, key_model: KeyV1) => void): void {
+                let item = _.find(this._items, (item) => item.id == key);
+                if (item != null) {
+                    item.last_value = 0;
+                    this._logger.trace(correlationId, "Reset key by %s", key);
+                }
+                else this._logger.trace(correlationId, "Cannot reset key by %s", key);
+                callback(null, item);
+
         }
 }

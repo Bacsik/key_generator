@@ -6,7 +6,6 @@ exports.KeysMongoDbSchema = function (collection) {
     collection = collection || 'keys';
     let schema = new mongoose_1.Schema({
         _id: { type: String },
-        key: { type: String, required: true },
         last_value: { type: Number, required: true },
     }, {
         collection: collection,

@@ -7,7 +7,6 @@ export let KeysMongoDbSchema = function(collection?: string) {
     let schema = new Schema(
         {
             _id: { type: String },
-            key: { type: String, required: true },
             last_value: { type: Number, required: true },
         },
         {

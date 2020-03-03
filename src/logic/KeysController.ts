@@ -51,19 +51,14 @@ export class KeysController implements IKeysController, IConfigurable, IReferenc
             this._persistence.getOneById(correlationId, keyId, callback);
     }
 
-    public getKeyByKey(correlationId: string, keyKey: string,
-        callback: (err: any, key: KeyV1) => void): void {
-            this._persistence.getOneByKey(correlationId, keyKey, callback);
-    }
-
-    public getKeysRangeByKey(correlationId: string, keyKey: string, number: number | null,
+    public nextKey(correlationId: string, keyKey: string, number: number | null,
         callback: (err:any, range: number[]) => void): void {
             let last_value: number;
             let range: number[];
             if(number < 0 || number == null) number = 5;
             async.series([
                 (callback) => {
-                    this._persistence.getRangeByKey(
+                    this._persistence.nextKey(
                         correlationId,
                         keyKey,
                         number,
@@ -81,16 +76,14 @@ export class KeysController implements IKeysController, IConfigurable, IReferenc
             ], (err) => { callback(err, range);  });
         }
 
-    public createKey(correlationId: string, key: KeyV1,
+    public createKey(correlationId: string, key: string,
         callback: (err: any, key: KeyV1) => void): void {
-            key.id = key.id || IdGenerator.nextLong();
-
-            this._persistence.create(correlationId, key, callback);
+            this._persistence.createKey(correlationId, key, callback);
     }
 
-    public updateKey(correlationId: string, key: KeyV1,
+    public resetKey(correlationId: string, key: string,
         callback: (err: any, key: KeyV1) => void): void {
-            this._persistence.update(correlationId, key, callback);
+            this._persistence.resetKey(correlationId, key, callback);
     }
 
     public deleteKeyById(correlationId: string, keyId: string,

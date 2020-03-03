@@ -21,10 +21,9 @@ export class KeysCommandSet extends CommandSet {
 
         this.addCommand(this.makeGetKeysCommand());
         this.addCommand(this.makeGetKeyByIdCommand());
-        this.addCommand(this.makeGetKeyByKeyCommand());
-        this.addCommand(this.makeGetKeysRangeCommand());
+        this.addCommand(this.makeNextKeyCommand());
         this.addCommand(this.makeCreateKeyCommand());
-        this.addCommand(this.makeUpdateKeyCommand());
+        this.addCommand(this.makeResetKeyCommand());
         this.addCommand(this.makeDeleteKeyByIdCommand());
     }
 
@@ -54,19 +53,7 @@ export class KeysCommandSet extends CommandSet {
         );
     }
 
-    private makeGetKeyByKeyCommand(): ICommand {
-        return new Command(
-            'get_key_by_key',
-            new ObjectSchema(true)
-                .withRequiredProperty('key', TypeCode.String),
-            (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
-                let key = args.getAsString('key');
-                this._controller.getKeyByKey(correlationId, key, callback);
-            }
-        );
-    }
-
-    private makeGetKeysRangeCommand(): ICommand {
+    private makeNextKeyCommand(): ICommand {
         return new Command(
             'get_keys_range',
             new ObjectSchema(true)
@@ -75,7 +62,7 @@ export class KeysCommandSet extends CommandSet {
             (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
                 let key = args.getAsString('key');
                 let number = args.getAsIntegerWithDefault('number',5);
-                this._controller.getKeysRangeByKey(correlationId, key, number, callback);
+                this._controller.nextKey(correlationId, key, number, callback);
             }
         );
     }
@@ -84,22 +71,22 @@ export class KeysCommandSet extends CommandSet {
         return new Command(
             'create_key',
             new ObjectSchema(true)
-                .withRequiredProperty('key', new KeyV1Schema()),
+                .withRequiredProperty('key', TypeCode.String),
             (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
-                let key = args.getAsObject('key');
+                let key = args.getAsString('key');
                 this._controller.createKey(correlationId, key, callback);
             }
         );
     }   
 
-    private makeUpdateKeyCommand(): ICommand {
+    private makeResetKeyCommand(): ICommand {
         return new Command(
-            'update_key',
+            'reset_key',
             new ObjectSchema(true)
-                .withRequiredProperty('key', new KeyV1Schema()),
+                .withRequiredProperty('key', TypeCode.String),
             (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
-                let key = args.getAsObject('key');
-                this._controller.updateKey(correlationId, key, callback);
+                let key = args.getAsString('key');
+                this._controller.resetKey(correlationId, key, callback);
             }
         );
     }   

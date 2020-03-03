@@ -5,9 +5,8 @@ export declare class KeysCommandSet extends CommandSet {
     constructor(controller: IKeysController);
     private makeGetKeysCommand;
     private makeGetKeyByIdCommand;
-    private makeGetKeyByKeyCommand;
-    private makeGetKeysRangeCommand;
+    private makeNextKeyCommand;
     private makeCreateKeyCommand;
-    private makeUpdateKeyCommand;
+    private makeResetKeyCommand;
     private makeDeleteKeyByIdCommand;
 }

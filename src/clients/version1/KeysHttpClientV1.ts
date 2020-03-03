@@ -33,19 +33,8 @@ export class KeysHttpClientV1 extends CommandableHttpClient implements IKeysClie
         );
     }
 
-    public getKeyByKey(correlationId: string, keyKey: string,
-        callback: (err: any, page: KeyV1) => void): void{
-        this.callCommand(
-            'get_key_by_key',
-            correlationId,
-            {
-                key: keyKey
-            },
-            callback
-        );
-    }
 
-    public getKeysRangeByKey(correlationId: string, keyKey: string, number:number,
+    public nextKey(correlationId: string, keyKey: string, number:number,
         callback:(err:any,range:number[]) => void):void{
         this.callCommand(
             'get_keys_range',
@@ -59,7 +48,7 @@ export class KeysHttpClientV1 extends CommandableHttpClient implements IKeysClie
     }
 
 
-    public createKey(correlationId: string, key: KeyV1,
+    public createKey(correlationId: string, key: string,
         callback: (err: any, key: KeyV1) => void): void{
         this.callCommand(
             'create_key',
@@ -71,10 +60,10 @@ export class KeysHttpClientV1 extends CommandableHttpClient implements IKeysClie
         );
     }   
 
-    public updateKey(correlationId: string, key: KeyV1,
+    public resetKey(correlationId: string, key: string,
         callback: (err: any, key: KeyV1) => void): void{
         this.callCommand(
-            'update_key',
+            'reset_key',
             correlationId,
             {
                 key: key

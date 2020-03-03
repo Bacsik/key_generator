@@ -12,24 +12,15 @@ import { KeyV1 } from '../../src/data/version1/KeyV1';
 import { KeysMemoryPersistence } from '../../src/persistence/KeysMemoryPersistence';
 import { KeysController } from '../../src/logic/KeysController';
 
-const KEY1: KeyV1 = {
-    id: '1',
-    key: 'key_controller1',
-    last_value: 12
+const KEY1: any = {
+    id: 'key_controller1',
 };
-const KEY2: KeyV1 = {
-    id: '2',
-    key: 'key_controller2',
-    last_value: 1
+const KEY2: any = {
+    id: 'key_controller2',
 };
 
-const KEY3: KeyV1 = {
-    id: '3',
-    key: 'key_controller3',
-    last_value: 15
-};
 
-suite('KeyssController', () => {
+suite('Keys Controller', () => {
     let persistence: KeysMemoryPersistence;
     let controller: KeysController;
 
@@ -62,14 +53,13 @@ suite('KeyssController', () => {
             (callback) => {
                 controller.createKey(
                     null,
-                    KEY1,
+                    KEY1.id,
                     (err, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
                         assert.equal(KEY1.id, key.id);
-                        assert.equal(KEY1.key, key.key);
-                        assert.equal(KEY1.last_value, key.last_value);
+                        assert.equal(0, key.last_value);
 
 
                         callback();
@@ -80,14 +70,13 @@ suite('KeyssController', () => {
             (callback) => {
                 controller.createKey(
                     null,
-                    KEY2,
+                    KEY2.id,
                     (err, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
                         assert.equal(KEY2.id, key.id);
-                        assert.equal(KEY2.key, key.key);
-                        assert.equal(KEY2.last_value, key.last_value);
+                        assert.equal(0, key.last_value);
 
 
                         callback();
@@ -112,19 +101,18 @@ suite('KeyssController', () => {
                     }
                 )
             },
-            // Update the key
+            // Reset the key
             (callback) => {
-                key1.key = 'ABC';
 
-                controller.updateKey(
+                controller.resetKey(
                     null,
-                    key1,
+                    key1.id,
                     (err, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
                         assert.equal(key1.id, key.id);
-                        assert.equal('ABC', key.key);
+                        assert.equal(0, key.last_value);
 
                         callback();
                     }
@@ -145,21 +133,7 @@ suite('KeyssController', () => {
                     }
                 )
             },
-            // Get key by key
-            (callback) => {
-                controller.getKeyByKey(
-                    null, 
-                    key1.key,
-                    (err, key) => {
-                        assert.isNull(err);
 
-                        assert.isObject(key);
-                        assert.equal(key1.key, key.key);
-
-                        callback();
-                    }
-                )
-            },
             // Delete the key
             (callback) => {
                 controller.deleteKeyById(
@@ -199,14 +173,13 @@ suite('KeyssController', () => {
             (callback) => {
                 controller.createKey(
                     null,
-                    KEY1,
+                    KEY1.id,
                     (err, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
                         assert.equal(KEY1.id, key.id);
-                        assert.equal(KEY1.key, key.key);
-                        assert.equal(KEY1.last_value, key.last_value);
+                        assert.equal(0, key.last_value);
 
 
                         callback();
@@ -217,44 +190,42 @@ suite('KeyssController', () => {
             (callback) => {
                 controller.createKey(
                     null,
-                    KEY2,
+                    KEY2.id,
                     (err, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
                         assert.equal(KEY2.id, key.id);
-                        assert.equal(KEY2.key, key.key);
-                        assert.equal(KEY2.last_value, key.last_value);
+                        assert.equal(0, key.last_value);
 
 
                         callback();
                     }
                 )
             },
-            // Get range with 10 id`s 2-11
+            // Get range with 10 id`s
             (callback) => {
-                controller.getKeysRangeByKey(
+                controller.nextKey(
                     null, 'key_controller2', 10,
                     (err, range) => {
                         assert.isNull(err);
-
                         assert.isArray(range);
                         assert.lengthOf(range, 10);
-                        assert.deepEqual(range, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+                        assert.deepEqual(range, [1,2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
                         callback();
                     }
                 )
             },
-            // Get range with default quantity id`s  12-16
+            // Get range with default quantity id`s 
             (callback) => {
-                controller.getKeysRangeByKey(
+                controller.nextKey(
                     null, 'key_controller2', null,
                     (err, range) => {
                         assert.isNull(err);
                         assert.isArray(range);
                         assert.lengthOf(range, 5);
-                        assert.deepEqual(range,[12,13,14,15,16]);
+                        assert.deepEqual(range,[11,12,13,14,15]);
 
                         callback();
                     }
@@ -262,14 +233,14 @@ suite('KeyssController', () => {
             },
             // Check last_value
             (callback) => {
-                controller.getKeyByKey(
+                controller.getKeyById(
                     null, 
                     'key_controller2',
                     (err, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
-                        assert.equal('16', key.last_value);
+                        assert.equal(15, key.last_value);
 
                         callback();
                     }

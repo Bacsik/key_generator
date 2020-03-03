@@ -5,9 +5,8 @@ import { KeyV1 } from '../data/version1/KeyV1';
 export interface IKeysController {
     getKeys(correlationId: string, filter: FilterParams, paging: PagingParams, callback: (err: any, page: DataPage<KeyV1>) => void): void;
     getKeyById(correlationId: string, keyId: string, callback: (err: any, page: KeyV1) => void): void;
-    getKeyByKey(correlationId: string, keyKey: string, callback: (err: any, page: KeyV1) => void): void;
-    getKeysRangeByKey(correlationId: string, key: string, number: number, callback: (err: any, range: number[]) => void): void;
-    createKey(correlationId: string, key: KeyV1, callback: (err: any, key: KeyV1) => void): void;
-    updateKey(correlationId: string, key: KeyV1, callback: (err: any, key: KeyV1) => void): void;
+    nextKey(correlationId: string, key: string, number: number, callback: (err: any, range: number[]) => void): void;
+    createKey(correlationId: string, key: string, callback: (err: any, key: KeyV1) => void): void;
+    resetKey(correlationId: string, key: string, callback: (err: any, key: KeyV1) => void): void;
     deleteKeyById(correlationId: string, keyId: string, callback: (err: any, key: KeyV1) => void): void;
 }

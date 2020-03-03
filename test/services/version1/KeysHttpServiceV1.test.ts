@@ -14,22 +14,14 @@ import { KeysMemoryPersistence } from '../../../src/persistence/KeysMemoryPersis
 import { KeysController } from '../../../src/logic/KeysController';
 import { KeysHttpServiceV1 } from '../../../src/services/version1/KeysHttpServiceV1';
 
-const KEY1: KeyV1 = {
-    id: '1',
-    key: 'key1',
-    last_value: 10
+const KEY1: any = {
+    id: 'key1',
 };
-const KEY2: KeyV1 = {
-    id: '2',
-    key: 'key2',
-    last_value: 20
+const KEY2: any = {
+    id: 'key2',
 };
 
-const KEY3: KeyV1 = {
-    id: '3',
-    key: 'key3',
-    last_value: 30
-};
+
 
 suite('KeyssHttpServiceV1', () => {
     let persistence: KeysMemoryPersistence;
@@ -87,15 +79,14 @@ suite('KeyssHttpServiceV1', () => {
             (callback) => {
                 rest.post('/v1/keys/create_key',
                     {
-                        key: KEY1
+                        key: KEY1.id
                     },
                     (err, req, res, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
                         assert.equal(KEY1.id, key.id);
-                        assert.equal(KEY1.key, key.key);
-                        assert.equal(KEY1.last_value, key.last_value);
+                        assert.equal(0, key.last_value);
 
 
                         callback();
@@ -106,15 +97,14 @@ suite('KeyssHttpServiceV1', () => {
             (callback) => {
                 rest.post('/v1/keys/create_key',
                     {
-                        key: KEY2
+                        key: KEY2.id
                     },
                     (err, req, res, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
                         assert.equal(KEY2.id, key.id);
-                        assert.equal(KEY2.key, key.key);
-                        assert.equal(KEY2.last_value, key.last_value);
+                        assert.equal(0, key.last_value);
 
 
                         callback();
@@ -140,42 +130,24 @@ suite('KeyssHttpServiceV1', () => {
                     }
                 )
             },
-            // Update the key
+            // Reset the key
             (callback) => {
-                key1.key = 'ABC';
-
-                rest.post('/v1/keys/update_key',
+                rest.post('/v1/keys/reset_key',
                     {
-                        key: key1
+                        key: key1.id
                     },
                     (err, req, res, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
                         assert.equal(key1.id, key.id);
-                        assert.equal('ABC', key.key);
+                        assert.equal(0, key.last_value);
 
                         callback();
                     }
                 )
             },
-            // Get key by key
-            (callback) => {
-                rest.post('/v1/keys/get_key_by_key',
-                    {
-                        key: key1.key
-                    },
-                    (err, req, res, key) => {
-                        assert.isNull(err);
-
-                        assert.isObject(key);
-                        assert.equal(key1.id, key.id);
-
-                        callback();
-                    }
-                )
-            },
-            // Get keys range by key 21-30
+            // Get keys range by key
             (callback) => {
                 rest.post('/v1/keys/get_keys_range',
                     {
@@ -187,7 +159,7 @@ suite('KeyssHttpServiceV1', () => {
                         assert.isNull(err);
                         assert.isArray(range);
                         assert.lengthOf(range, 10);
-                        assert.deepEqual(range, [21,22, 23, 24, 25, 26, 27, 28, 29, 30]);
+                        assert.deepEqual(range, [1,2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
                         callback();
                     }

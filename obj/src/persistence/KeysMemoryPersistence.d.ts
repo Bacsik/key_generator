@@ -7,8 +7,9 @@ import { KeysPersistence } from './KeysPersistence';
 export declare class KeysMemoryPersistence extends IdentifiableMemoryPersistence<KeyV1, string> implements KeysPersistence {
     constructor();
     private composeFilter;
+    createKey(correlationId: string, key: string, callback: (err: any, item: KeyV1) => void): void;
     getPageByFilter(correlationId: string, filter: FilterParams, paging: PagingParams, callback: (err: any, page: DataPage<KeyV1>) => void): void;
-    getOneById(correlationId: string, id: string, callback: (err: any, item: KeyV1) => void): void;
-    getOneByKey(correlationId: string, key: string, callback: (err: any, item: KeyV1) => void): void;
-    getRangeByKey(correlationId: string, key: string, number: number, callback: (err: any, key: KeyV1) => void): void;
+    getOneById(correlationId: string, key: string, callback: (err: any, item: KeyV1) => void): void;
+    nextKey(correlationId: string, key: string, number: number, callback: (err: any, key_model: KeyV1) => void): void;
+    resetKey(correlationId: string, key: string, callback: (err: any, key_model: KeyV1) => void): void;
 }

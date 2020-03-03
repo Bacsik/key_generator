@@ -8,15 +8,11 @@ import { PagingParams } from 'pip-services3-commons-node';
 import { KeyV1 } from '../../../src/data/version1/KeyV1';
 import { IKeysClientV1 } from '../../../src/clients/version1/IKeysClientV1';
 
-const KEY1: KeyV1 = {
-    id: '1',
-    key: 'key1',
-    last_value: 1
+const KEY1: any = {
+    id: 'key1',
 };
-const KEY2: KeyV1 = {
-    id: '2',
-    key: 'key2',
-    last_value: 12
+const KEY2: any = {
+    id: 'key2',
 };
 
 export class KeysClientV1Fixture {
@@ -35,14 +31,13 @@ export class KeysClientV1Fixture {
             (callback) => {
                 this._client.createKey(
                     null,
-                    KEY1,
+                    KEY1.id,
                     (err, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
                         assert.equal(KEY1.id, key.id);
-                        assert.equal(KEY1.key, key.key);
-                        assert.equal(KEY1.last_value, key.last_value);
+                        assert.equal(0, key.last_value);
 
                         callback();
                     }
@@ -52,14 +47,13 @@ export class KeysClientV1Fixture {
             (callback) => {
                 this._client.createKey(
                     null,
-                    KEY2,
+                    KEY2.id,
                     (err, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
                         assert.equal(KEY2.id, key.id);
-                        assert.equal(KEY2.key, key.key);
-                        assert.equal(KEY2.last_value, key.last_value);
+                        assert.equal(0, key.last_value);
 
                         callback();
                     }
@@ -84,19 +78,18 @@ export class KeysClientV1Fixture {
                 )
             },
 
-            // Update the key
+            // Reset the key
             (callback) => {
-                key1.key = 'ABC';
 
-                this._client.updateKey(
+                this._client.resetKey(
                     null,
-                    key1,
+                    key1.id,
                     (err, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
                         assert.equal(key1.id, key.id);
-                        assert.equal('ABC', key.key);
+                        assert.equal(0, key.last_value);
 
                         callback();
                     }
@@ -155,14 +148,13 @@ export class KeysClientV1Fixture {
               (callback) => {
                 this._client.createKey(
                     null,
-                    KEY1,
+                    KEY1.id,
                     (err, key) => {
                         assert.isNull(err);
 
                         assert.isObject(key);
                         assert.equal(KEY1.id, key.id);
-                        assert.equal(KEY1.key, key.key);
-                        assert.equal(KEY1.last_value, key.last_value);
+                        assert.equal(0, key.last_value);
 
                         callback();
                     }
@@ -171,28 +163,28 @@ export class KeysClientV1Fixture {
 
             //Get id-range by key
             (callback) => {
-                this._client.getKeysRangeByKey(
+                this._client.nextKey(
                     null, 'key1', 10,
                     (err, range) => {
                         assert.isNull(err);
 
                         assert.isArray(range);
                         assert.lengthOf(range, 10);
-                        assert.deepEqual(range, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+                        assert.deepEqual(range, [1,2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
                         callback();
                     }
                 )
             },
             (callback) => {
-                this._client.getKeysRangeByKey(
+                this._client.nextKey(
                     null, 'key1', null,
                     (err, range) => {
                         assert.isNull(err);
 
                         assert.isArray(range);
                         assert.lengthOf(range, 5);
-                        assert.deepEqual(range, [12, 13, 14, 15, 16]);
+                        assert.deepEqual(range, [11, 12, 13, 14, 15]);
 
                         callback();
                     }

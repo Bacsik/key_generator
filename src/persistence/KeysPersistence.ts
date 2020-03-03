@@ -1,31 +1,27 @@
+
 import { FilterParams } from 'pip-services3-commons-node';
 import { PagingParams } from 'pip-services3-commons-node';
 import { DataPage } from 'pip-services3-commons-node';
 
-
 import { KeyV1 } from '../data/version1/KeyV1';
 
 export interface KeysPersistence {
+    getPageByFilter(correlationId: string, filter: FilterParams, paging: PagingParams,
+        callback: (err: any, page: DataPage<KeyV1>) => void): void ;
 
-    getPageByFilter(correlationId: string, filter: FilterParams, paging: PagingParams, 
-        callback: (err: any, page: DataPage<KeyV1>) => void): void;
-    
-    getOneById(correlationId: string, id: string, 
+    getOneById(correlationId: string, key: string, 
         callback: (err: any, item: KeyV1) => void): void;
 
-    getOneByKey(correlationId: string, key: string, 
-        callback: (err: any, item: KeyV1) => void): void;
-
-    getRangeByKey(correlationId: string, key: string, number: number,
+    nextKey(correlationId: string, key: string, number: number,
         callback: (err: any, key: KeyV1) => void): void;
             
-    create(correlationId: string, item: KeyV1, 
+    createKey(correlationId: string, key: string, 
         callback: (err: any, item: KeyV1) => void): void;
     
-    update(correlationId: string, item: KeyV1, 
+    resetKey(correlationId: string, key: string, 
         callback: (err: any, item: KeyV1) => void): void;
 
-    deleteById(correlationId: string, id: string, 
+    deleteById(correlationId: string, key: string, 
         callback: (err: any, item: KeyV1) => void): void;
 
 

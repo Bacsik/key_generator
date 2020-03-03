@@ -13,12 +13,7 @@ class KeysHttpClientV1 extends pip_services3_rpc_node_1.CommandableHttpClient {
             key_id: keyId
         }, callback);
     }
-    getKeyByKey(correlationId, keyKey, callback) {
-        this.callCommand('get_key_by_key', correlationId, {
-            key: keyKey
-        }, callback);
-    }
-    getKeysRangeByKey(correlationId, keyKey, number, callback) {
+    nextKey(correlationId, keyKey, number, callback) {
         this.callCommand('get_keys_range', correlationId, {
             key: keyKey,
             number: number
@@ -29,8 +24,8 @@ class KeysHttpClientV1 extends pip_services3_rpc_node_1.CommandableHttpClient {
             key: key
         }, callback);
     }
-    updateKey(correlationId, key, callback) {
-        this.callCommand('update_key', correlationId, {
+    resetKey(correlationId, key, callback) {
+        this.callCommand('reset_key', correlationId, {
             key: key
         }, callback);
     }

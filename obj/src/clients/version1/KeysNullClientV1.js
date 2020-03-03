@@ -8,16 +8,13 @@ class KeysNullClientV1 {
     getKeyById(correlationId, keyId, callback) {
         callback(null, null);
     }
-    getKeyByKey(correlationId, keyKey, callback) {
-        callback(null, null);
-    }
-    getKeysRangeByKey(correlationId, key, number, callback) {
+    nextKey(correlationId, key, number, callback) {
         callback(null, null);
     }
     createKey(correlationId, key, callback) {
         callback(null, null);
     }
-    updateKey(correlationId, key, callback) {
+    resetKey(correlationId, key, callback) {
         callback(null, null);
     }
     deleteKeyById(correlationId, keyId, callback) {

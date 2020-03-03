@@ -33,26 +33,18 @@ export class KeysDirectClientV1 extends DirectClient<IKeysController> implements
     }
 
 
-    public getKeyByKey(correlationId: string, keyKey: string,
-        callback: (err: any, key: KeyV1) => void): void {
-            let timing = this.instrument(correlationId, 'keys.get_key_by_key');
-            this._controller.getKeyByKey(correlationId, keyKey, (err, key) => {
-                timing.endTiming();
-                callback(err, key);
-            });
-    }
 
-    public getKeysRangeByKey(correlationId: string, key: string, number:number,
+    public nextKey(correlationId: string, key: string, number:number,
         callback: (err: any, range: number[]) => void): void {
             let timing = this.instrument(correlationId, 'keys.get_keys_range');
-            this._controller.getKeysRangeByKey(correlationId, key, number, (err, range) => {
+            this._controller.nextKey(correlationId, key, number, (err, range) => {
                 timing.endTiming();
                 callback(err, range);
             });
     }
 
 
-    public createKey(correlationId: string, key: KeyV1,
+    public createKey(correlationId: string, key: string,
         callback: (err: any, key: KeyV1) => void): void {
             let timing = this.instrument(correlationId, 'keys.create_key');
             this._controller.createKey(correlationId, key, (err, key) => {
@@ -61,10 +53,10 @@ export class KeysDirectClientV1 extends DirectClient<IKeysController> implements
             });
     }   
 
-    public updateKey(correlationId: string, key: KeyV1,
+    public resetKey(correlationId: string, key: string,
         callback: (err: any, key: KeyV1) => void): void {
             let timing = this.instrument(correlationId, 'keys.update_key');
-            this._controller.updateKey(correlationId, key, (err, key) => {
+            this._controller.resetKey(correlationId, key, (err, key) => {
                 timing.endTiming();
                 callback(err, key);
             });

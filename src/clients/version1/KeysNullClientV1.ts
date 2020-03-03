@@ -19,24 +19,18 @@ export class KeysNullClientV1 implements IKeysClientV1 {
         callback(null, null);
     }
 
-
-    public getKeyByKey(correlationId: string, keyKey: string,
-        callback: (err: any, page: KeyV1) => void): void{
-        callback(null, null);
-    }
-
-    public getKeysRangeByKey(correlationId: string, key: string, number:number,
+    public nextKey(correlationId: string, key: string, number:number,
         callback:(err:any,range:number[]) => void):void{
         callback(null,null);
     }
 
 
-    public createKey(correlationId: string, key: KeyV1,
+    public createKey(correlationId: string, key: string,
         callback: (err: any, key: KeyV1) => void): void{
         callback(null,null);
     }   
 
-    public updateKey(correlationId: string, key: KeyV1,
+    public resetKey(correlationId: string, key: string,
         callback: (err: any, key: KeyV1) => void): void{
         callback(null,null);
     }   

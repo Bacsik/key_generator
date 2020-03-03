@@ -6,8 +6,7 @@ export class KeyV1Schema extends ObjectSchema {
     public constructor()
     {
         super();
-        this.withOptionalProperty('id', TypeCode.String);
-        this.withRequiredProperty('key', TypeCode.String);
+        this.withRequiredProperty('id', TypeCode.String);
         this.withRequiredProperty('last_value', TypeCode.Integer);
     }
 }
