@@ -20,7 +20,7 @@ export class KeysNullClientV1 implements IKeysClientV1 {
     }
 
     public nextKey(correlationId: string, key: string, number:number,
-        callback:(err:any,range:number[]) => void):void{
+        callback:(err:any,string) => void):void{
         callback(null,null);
     }
 

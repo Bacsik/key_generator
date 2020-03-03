@@ -35,7 +35,7 @@ export class KeysDirectClientV1 extends DirectClient<IKeysController> implements
 
 
     public nextKey(correlationId: string, key: string, number:number,
-        callback: (err: any, range: number[]) => void): void {
+        callback: (err: any, range: string) => void): void {
             let timing = this.instrument(correlationId, 'keys.get_keys_range');
             this._controller.nextKey(correlationId, key, number, (err, range) => {
                 timing.endTiming();

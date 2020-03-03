@@ -209,9 +209,8 @@ suite('Keys Controller', () => {
                     null, 'key_controller2', 10,
                     (err, range) => {
                         assert.isNull(err);
-                        assert.isArray(range);
-                        assert.lengthOf(range, 10);
-                        assert.deepEqual(range, [1,2, 3, 4, 5, 6, 7, 8, 9, 10]);
+                        assert.isString(range);
+                        assert.equal(range, JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
 
                         callback();
                     }
@@ -223,9 +222,8 @@ suite('Keys Controller', () => {
                     null, 'key_controller2', null,
                     (err, range) => {
                         assert.isNull(err);
-                        assert.isArray(range);
-                        assert.lengthOf(range, 5);
-                        assert.deepEqual(range,[11,12,13,14,15]);
+                        assert.isString(range);
+                        assert.equal(range,JSON.stringify([11,12,13,14,15]));
 
                         callback();
                     }

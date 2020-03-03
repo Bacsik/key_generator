@@ -52,7 +52,7 @@ export class KeysController implements IKeysController, IConfigurable, IReferenc
     }
 
     public nextKey(correlationId: string, keyKey: string, number: number | null,
-        callback: (err:any, range: number[]) => void): void {
+        callback: (err:any, range: string) => void): void {
             let last_value: number;
             let range: number[];
             if(number < 0 || number == null) number = 5;
@@ -73,7 +73,8 @@ export class KeysController implements IKeysController, IConfigurable, IReferenc
                     range = Array(number).fill(0).map((e,i)=>i+last_value+1);
                     callback();
                 }
-            ], (err) => { callback(err, range);  });
+                
+            ], (err) => { callback(err, JSON.stringify(range));  });
         }
 
     public createKey(correlationId: string, key: string,

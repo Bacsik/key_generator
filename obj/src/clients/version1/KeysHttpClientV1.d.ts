@@ -8,7 +8,7 @@ export declare class KeysHttpClientV1 extends CommandableHttpClient implements I
     constructor();
     getKeys(correlationId: string, filter: FilterParams, paging: PagingParams, callback: (err: any, page: DataPage<KeyV1>) => void): void;
     getKeyById(correlationId: string, keyId: string, callback: (err: any, key: KeyV1) => void): void;
-    nextKey(correlationId: string, keyKey: string, number: number, callback: (err: any, range: number[]) => void): void;
+    nextKey(correlationId: string, keyKey: string, number: number, callback: (err: any, string: any) => void): void;
     createKey(correlationId: string, key: string, callback: (err: any, key: KeyV1) => void): void;
     resetKey(correlationId: string, key: string, callback: (err: any, key: KeyV1) => void): void;
     deleteKeyById(correlationId: string, keyId: string, callback: (err: any, key: KeyV1) => void): void;

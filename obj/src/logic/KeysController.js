@@ -39,7 +39,7 @@ class KeysController {
                 range = Array(number).fill(0).map((e, i) => i + last_value + 1);
                 callback();
             }
-        ], (err) => { callback(err, range); });
+        ], (err) => { callback(err, JSON.stringify(range)); });
     }
     createKey(correlationId, key, callback) {
         this._persistence.createKey(correlationId, key, callback);

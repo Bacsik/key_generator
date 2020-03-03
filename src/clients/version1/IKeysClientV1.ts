@@ -12,7 +12,7 @@ export interface IKeysClientV1 {
         callback: (err: any, page: KeyV1) => void): void;
 
     nextKey(correlationId: string, key: string, number:number,
-        callback:(err:any,range:number[]) => void):void;
+        callback:(err:any,string) => void):void;
 
     createKey(correlationId: string, key: string,
         callback: (err: any, key: KeyV1) => void): void;

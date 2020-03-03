@@ -35,7 +35,7 @@ export class KeysHttpClientV1 extends CommandableHttpClient implements IKeysClie
 
 
     public nextKey(correlationId: string, keyKey: string, number:number,
-        callback:(err:any,range:number[]) => void):void{
+        callback:(err:any,string) => void):void{
         this.callCommand(
             'get_keys_range',
             correlationId,
